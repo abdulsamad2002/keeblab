@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Github, Linkedin, Moon, Sun, ArrowRight } from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function KeebLab() {
   const [theme, setTheme] = useState("dark");
@@ -13,30 +14,32 @@ export default function KeebLab() {
 
   return (
     <div
-      className={`min-h-screen w-full overflow-x-hidden ${
-        isDark ? "bg-[#0B0D10] text-white" : "bg-[#F7F8FA] text-black"
+      className={`min-h-screen w-full overflow-x-hidden transition-colors duration-500 ${
+        isDark
+          ? "bg-[#0A0C10] text-white"
+          : "bg-gradient-to-br from-[#F8FAFC] to-[#EEF2F7] text-[#0F172A]"
       }`}
     >
       {/* NAVBAR */}
       <header
-        className={`fixed top-0 inset-x-0 z-50 backdrop-blur border-b ${
+        className={`fixed top-0 inset-x-0 z-50 backdrop-blur-xl transition-colors duration-500 border-b ${
           isDark
-            ? "bg-[#0B0D10]/80 border-white/10"
-            : "bg-white/80 border-black/10"
+            ? "bg-[#0A0C10]/70 border-white/10"
+            : "bg-white/70 border-black/10"
         }`}
       >
         <div className="max-w-7xl mx-auto h-16 px-6 flex items-center justify-between">
-          <span className="text-2xl font-semibold tracking-tight">KeebLab</span>
-          <nav className="hidden md:flex items-center gap-8 text-sm">
+          <span className="text-xl font-semibold tracking-tight">KeebLab</span>
+          <nav className="flex items-center gap-6 text-sm">
             <a href="#" className="hover:opacity-70">Home</a>
             <a href="#about" className="hover:opacity-70">About</a>
             <a href="#" className="hover:opacity-70">Sign up</a>
             <button
               onClick={() => setTheme(isDark ? "light" : "dark")}
-              className={`p-2 rounded-full transition ${
+              className={`p-2 rounded-full transition-all duration-300 ${
                 isDark
                   ? "text-yellow-400 hover:bg-white/10"
-                  : "text-gray-700 hover:bg-black/10"
+                  : "text-slate-700 hover:bg-black/5"
               }`}
             >
               {isDark ? <Sun size={18} /> : <Moon size={18} />}
@@ -46,19 +49,29 @@ export default function KeebLab() {
       </header>
 
       {/* HERO */}
-      <section className="relative w-full pt-40 pb-32">
-        <div className="absolute inset-0 -z-10 overflow-hidden">
-          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] rounded-full bg-blue-500/20 blur-[180px]" />
-        </div>
+      <section className="relative pt-40 pb-36 overflow-hidden">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1 }}
+          className="absolute inset-0 -z-10"
+        >
+          <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[1100px] h-[1100px] rounded-full bg-blue-500/20 blur-[220px]" />
+        </motion.div>
 
-        <div className="max-w-5xl mx-auto px-6 text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="max-w-5xl mx-auto px-6 text-center"
+        >
           <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight leading-tight">
             A better way to
             <span className="block text-blue-500"> feel your typing</span>
           </h1>
           <p
             className={`mt-8 text-lg md:text-xl max-w-2xl mx-auto ${
-              isDark ? "text-gray-400" : "text-gray-600"
+              isDark ? "text-gray-400" : "text-slate-600"
             }`}
           >
             KeebLab blends mechanical keyboard obsession with precision typing
@@ -78,23 +91,29 @@ export default function KeebLab() {
               Learn More
             </button>
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* ABOUT */}
-      <section id="about" className="w-full pb-32">
-        <div className="max-w-6xl mx-auto px-6">
+      <section id="about" className="pb-32">
+        <motion.div
+          initial={{ opacity: 0, y: 60 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+          className="max-w-6xl mx-auto px-6"
+        >
           <div
-            className={`rounded-3xl p-14 md:p-20 border ${
+            className={`rounded-3xl p-14 md:p-20 border backdrop-blur-xl ${
               isDark
-                ? "bg-gradient-to-br from-[#121826] to-[#0B0D10] border-white/10"
-                : "bg-gradient-to-br from-white to-[#F2F4F8] border-black/10"
+                ? "bg-white/5 border-white/10"
+                : "bg-white border-black/10"
             }`}
           >
             <h2 className="text-3xl md:text-4xl font-bold mb-6">About KeebLab</h2>
             <p
               className={`max-w-3xl text-lg leading-relaxed ${
-                isDark ? "text-gray-300" : "text-gray-700"
+                isDark ? "text-gray-300" : "text-slate-700"
               }`}
             >
               KeebLab is a passion project born from mechanical keyboard culture —
@@ -103,7 +122,7 @@ export default function KeebLab() {
             </p>
             <p
               className={`mt-6 max-w-3xl leading-relaxed ${
-                isDark ? "text-gray-400" : "text-gray-600"
+                isDark ? "text-gray-400" : "text-slate-600"
               }`}
             >
               Every interaction is intentionally designed to feel calm,
@@ -111,21 +130,17 @@ export default function KeebLab() {
               you actually enjoy returning to.
             </p>
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* FOOTER */}
       <footer
-        className={`w-full border-t ${
+        className={`border-t transition-colors duration-500 ${
           isDark ? "border-white/10" : "border-black/10"
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 py-14 flex flex-col md:flex-row justify-between items-center gap-8">
-          <p
-            className={`text-sm ${
-              isDark ? "text-gray-400" : "text-gray-600"
-            }`}
-          >
+          <p className={`text-sm ${isDark ? "text-gray-400" : "text-slate-600"}`}>
             Built with care by{" "}
             <a
               href="https://www.linkedin.com/in/abdullah-parvez-565693246/"
@@ -137,10 +152,10 @@ export default function KeebLab() {
 
           <a
             href="https://github.com/abdullah-par/keeblab"
-            className={`flex items-center gap-3 px-5 py-3 rounded-xl border transition ${
+            className={`flex items-center gap-3 px-5 py-3 rounded-xl border transition-all ${
               isDark
                 ? "border-white/15 hover:bg-white/5 text-gray-300"
-                : "border-black/15 hover:bg-black/5 text-gray-700"
+                : "border-black/15 hover:bg-black/5 text-slate-700"
             }`}
           >
             <Github size={18} />

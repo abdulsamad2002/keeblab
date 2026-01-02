@@ -1,7 +1,7 @@
 
 ---
 
-## 🚀 Example README (Tailored for KeebLab)
+## 🚀 KeebLab
 
 ```md
 # ⌨️ KeebLab

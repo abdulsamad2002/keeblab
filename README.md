@@ -1,16 +1,41 @@
-# React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+---
 
-Currently, two official plugins are available:
+## 🚀 Example README (Tailored for KeebLab)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+```md
+# ⌨️ KeebLab
 
-## React Compiler
+A modern typing practice platform inspired by mechanical keyboard culture —  
+focused on speed, accuracy, and the joy of every keystroke.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+![KeebLab Preview](./public/preview.png)
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## ✨ Features
+
+- ⚡ Clean, distraction-free typing interface
+- 🎯 Performance-focused design (speed & accuracy)
+- 🌗 Dark / light theme toggle
+- 🎹 Inspired by mechanical keyboard aesthetics
+- 🧠 Built for enthusiasts, not just practice
+
+---
+
+## 🛠 Tech Stack
+
+- **React** (Vite)
+- **TypeScript**
+- **Tailwind CSS**
+- **Lucide Icons**
+
+---
+
+## 🚀 Getting Started
+
+Clone the repository:
+
+```bash
+git clone https://github.com/abdullah-par/keeblab.git
+cd keeblab

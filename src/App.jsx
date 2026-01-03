@@ -54,7 +54,7 @@ export default function KeebLab() {
 
   return (
     <div
-      className={`min-h-screen w-screen overflow-x-hidden transition-colors duration-500 ${
+      className={`min-h-screen w-full overflow-x-hidden transition-colors duration-500 ${
         isDark
           ? "bg-[#0A0C10] text-white"
           : "bg-gradient-to-br from-[#F8FAFC] to-[#EEF2F7] text-[#0F172A]"

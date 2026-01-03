@@ -2,11 +2,13 @@
 import React, { useEffect, useState } from "react";
 import { Github, Linkedin, Moon, Sun, ArrowRight, Menu, X } from "lucide-react";
 import { motion } from "framer-motion";
+import TypingTest from "./starttyping";
 
 export default function KeebLab() {
   const [theme, setTheme] = useState("dark");
   const [menuOpen, setMenuOpen] = useState(false);
   const [uiTheme, setUiTheme] = useState('paper');
+  const [view, setView] = useState("landing");
 
   useEffect(() => {
     // Prefer saved preference, fallback to system setting
@@ -178,6 +180,7 @@ export default function KeebLab() {
           </p>
           <div className="mt-12 flex flex-col sm:flex-row justify-center gap-4 flex-wrap">
             <motion.button whileHover={{ scale: 1.03 }} className="btn btn-primary px-10 py-4 rounded-xl flex items-center gap-3 w-full sm:w-auto justify-center" aria-label="Start Typing">
+              onClick={() => setView("test")}
               Start Typing <ArrowRight size={18} />
             </motion.button>
             <motion.button

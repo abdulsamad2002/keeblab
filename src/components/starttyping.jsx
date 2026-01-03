@@ -1,4 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+"use client"
+
+import React, { useState, useEffect, useRef } from "react";
 
 const paragraphs = [
   "The quick brown fox jumps over the lazy dog near the riverbank. Technology continues to evolve at an unprecedented pace, transforming how we live and work.",
@@ -10,12 +12,12 @@ const paragraphs = [
   "Innovation drives progress and helps solve complex problems facing society today. Creative thinking combined with determination leads to breakthrough solutions.",
   "Traveling broadens our horizons and helps us understand different cultures better. Every journey teaches valuable lessons and creates lasting memories.",
   "Cooking is a delightful blend of science and creativity that brings joy. Experimenting with flavors and techniques can lead to culinary masterpieces.",
-  "Learning new skills keeps our minds sharp and opens up opportunities. Continuous growth and adaptation are key to success in any field."
+  "Learning new skills keeps our minds sharp and opens up opportunities. Continuous growth and adaptation are key to success in any field.",
 ];
 
 export default function TypingTest() {
-  const [currentParagraph, setCurrentParagraph] = useState('');
-  const [userInput, setUserInput] = useState('');
+  const [currentParagraph, setCurrentParagraph] = useState("");
+  const [userInput, setUserInput] = useState("");
   const [startTime, setStartTime] = useState(null);
   const [wpm, setWpm] = useState(0);
   const [accuracy, setAccuracy] = useState(100);
@@ -44,7 +46,7 @@ export default function TypingTest() {
   const loadNewParagraph = () => {
     const randomIndex = Math.floor(Math.random() * paragraphs.length);
     setCurrentParagraph(paragraphs[randomIndex]);
-    setUserInput('');
+    setUserInput("");
     setErrors(0);
   };
 
@@ -71,15 +73,15 @@ export default function TypingTest() {
       x: Math.random() * 100,
       y: Math.random() * 100,
     };
-    setParticles(prev => [...prev, particle]);
+    setParticles((prev) => [...prev, particle]);
     setTimeout(() => {
-      setParticles(prev => prev.filter(p => p.id !== particle.id));
+      setParticles((prev) => prev.filter((p) => p.id !== particle.id));
     }, 1000);
   };
 
   const handleInputChange = (e) => {
     const value = e.target.value;
-    
+
     if (!isActive && value.length > 0) {
       setIsActive(true);
       setStartTime(Date.now());
@@ -90,13 +92,13 @@ export default function TypingTest() {
 
     if (value.length > userInput.length) {
       if (lastChar === expectedChar) {
-        setStreak(prev => prev + 1);
+        setStreak((prev) => prev + 1);
         if (streak > 0 && streak % 5 === 0) {
           createParticle();
         }
       } else {
         setStreak(0);
-        setErrors(prev => prev + 1);
+        setErrors((prev) => prev + 1);
       }
     }
 
@@ -106,7 +108,7 @@ export default function TypingTest() {
     setAccuracy(acc);
 
     if (value === currentParagraph) {
-      setCompletedCount(prev => prev + 1);
+      setCompletedCount((prev) => prev + 1);
       createParticle();
       createParticle();
       createParticle();
@@ -132,18 +134,19 @@ export default function TypingTest() {
   };
 
   const getCharClass = (index) => {
-    if (index >= userInput.length) return 'text-gray-600';
+    if (index >= userInput.length) return "text-gray-600";
     if (userInput[index] === currentParagraph[index]) {
-      return 'text-emerald-400';
+      return "text-emerald-400";
     }
-    return 'text-red-500 bg-red-500/20';
+    return "text-red-500 bg-red-500/20";
   };
 
   const getSpeedIndicator = () => {
-    if (wpm > 80) return 'bg-gradient-to-r from-purple-500 via-pink-500 to-red-500';
-    if (wpm > 60) return 'bg-gradient-to-r from-blue-500 to-purple-500';
-    if (wpm > 40) return 'bg-gradient-to-r from-green-500 to-blue-500';
-    return 'bg-gradient-to-r from-gray-500 to-green-500';
+    if (wpm > 80)
+      return "bg-gradient-to-r from-purple-500 via-pink-500 to-red-500";
+    if (wpm > 60) return "bg-gradient-to-r from-blue-500 to-purple-500";
+    if (wpm > 40) return "bg-gradient-to-r from-green-500 to-blue-500";
+    return "bg-gradient-to-r from-gray-500 to-green-500";
   };
 
   return (
@@ -151,18 +154,21 @@ export default function TypingTest() {
       {/* Animated Background */}
       <div className="absolute inset-0 opacity-20">
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-purple-500 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500 rounded-full blur-3xl animate-pulse" style={{animationDelay: '1s'}}></div>
+        <div
+          className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500 rounded-full blur-3xl animate-pulse"
+          style={{ animationDelay: "1s" }}
+        ></div>
       </div>
 
       {/* Particles */}
-      {particles.map(particle => (
+      {particles.map((particle) => (
         <div
           key={particle.id}
           className="absolute w-4 h-4 bg-gradient-to-r from-yellow-400 to-pink-500 rounded-full animate-ping"
           style={{
             left: `${particle.x}%`,
             top: `${particle.y}%`,
-            animationDuration: '1s'
+            animationDuration: "1s",
           }}
         />
       ))}
@@ -172,29 +178,63 @@ export default function TypingTest() {
         <div className="flex items-center justify-between mb-12 gap-8">
           <div className="flex gap-8">
             <div className="text-center">
-              <div className={`text-6xl font-black ${wpm > 80 ? 'text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400 animate-pulse' : 'text-white'}`}>
+              <div
+                className={`text-6xl font-black ${
+                  wpm > 80
+                    ? "text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400 animate-pulse"
+                    : "text-white"
+                }`}
+              >
                 {wpm}
               </div>
-              <div className="text-gray-500 text-sm uppercase tracking-widest mt-1">WPM</div>
+              <div className="text-gray-500 text-sm uppercase tracking-widest mt-1">
+                WPM
+              </div>
             </div>
             <div className="text-center">
               <div className="text-6xl font-black text-white">{accuracy}%</div>
-              <div className="text-gray-500 text-sm uppercase tracking-widest mt-1">Accuracy</div>
+              <div className="text-gray-500 text-sm uppercase tracking-widest mt-1">
+                Accuracy
+              </div>
             </div>
             <div className="text-center">
-              <div className="text-6xl font-black text-white">{completedCount}</div>
-              <div className="text-gray-500 text-sm uppercase tracking-widest mt-1">Completed</div>
+              <div className="text-6xl font-black text-white">
+                {completedCount}
+              </div>
+              <div className="text-gray-500 text-sm uppercase tracking-widest mt-1">
+                Completed
+              </div>
             </div>
           </div>
 
           {/* Speed Indicator */}
           <div className="flex flex-col items-end gap-2">
             <div className="flex gap-2">
-              <div className={`h-8 w-1 rounded ${wpm > 20 ? getSpeedIndicator() : 'bg-gray-700'}`}></div>
-              <div className={`h-8 w-1 rounded ${wpm > 40 ? getSpeedIndicator() : 'bg-gray-700'}`}></div>
-              <div className={`h-8 w-1 rounded ${wpm > 60 ? getSpeedIndicator() : 'bg-gray-700'}`}></div>
-              <div className={`h-8 w-1 rounded ${wpm > 80 ? getSpeedIndicator() : 'bg-gray-700'}`}></div>
-              <div className={`h-8 w-1 rounded ${wpm > 100 ? getSpeedIndicator() : 'bg-gray-700'}`}></div>
+              <div
+                className={`h-8 w-1 rounded ${
+                  wpm > 20 ? getSpeedIndicator() : "bg-gray-700"
+                }`}
+              ></div>
+              <div
+                className={`h-8 w-1 rounded ${
+                  wpm > 40 ? getSpeedIndicator() : "bg-gray-700"
+                }`}
+              ></div>
+              <div
+                className={`h-8 w-1 rounded ${
+                  wpm > 60 ? getSpeedIndicator() : "bg-gray-700"
+                }`}
+              ></div>
+              <div
+                className={`h-8 w-1 rounded ${
+                  wpm > 80 ? getSpeedIndicator() : "bg-gray-700"
+                }`}
+              ></div>
+              <div
+                className={`h-8 w-1 rounded ${
+                  wpm > 100 ? getSpeedIndicator() : "bg-gray-700"
+                }`}
+              ></div>
             </div>
             <div className="text-gray-500 text-xs">{timeElapsed}s</div>
           </div>
@@ -202,23 +242,28 @@ export default function TypingTest() {
 
         {/* Typing Area */}
         <div className="relative mb-8">
-          <div 
+          <div
             className="text-4xl leading-loose font-sans mb-8 cursor-text p-6 rounded-2xl border-2 border-gray-800 focus-within:border-purple-500 transition-all min-h-[200px]"
             onClick={() => inputRef.current?.focus()}
           >
-            {currentParagraph.split('').map((char, index) => (
+            {currentParagraph.split("").map((char, index) => (
               <span
                 key={index}
-                className={`inline-block ${getCharClass(index)} transition-all duration-75 ${
-                  index === userInput.length ? 'border-b-4 border-white animate-pulse scale-110' : ''
+                className={`inline-block ${getCharClass(
+                  index
+                )} transition-all duration-75 ${
+                  index === userInput.length
+                    ? "border-b-4 border-white animate-pulse scale-110"
+                    : ""
                 } ${
-                  userInput[index] === currentParagraph[index] && index === userInput.length - 1
-                    ? 'animate-bounce'
-                    : ''
+                  userInput[index] === currentParagraph[index] &&
+                  index === userInput.length - 1
+                    ? "animate-bounce"
+                    : ""
                 }`}
                 style={{
-                  animationDuration: '0.3s',
-                  animationIterationCount: '1'
+                  animationDuration: "0.3s",
+                  animationIterationCount: "1",
                 }}
               >
                 {char}
@@ -230,7 +275,9 @@ export default function TypingTest() {
           <div className="h-2 bg-gray-800 rounded-full overflow-hidden mb-8">
             <div
               className={`h-full ${getSpeedIndicator()} transition-all duration-200`}
-              style={{ width: `${(userInput.length / currentParagraph.length) * 100}%` }}
+              style={{
+                width: `${(userInput.length / currentParagraph.length) * 100}%`,
+              }}
             />
           </div>
         </div>

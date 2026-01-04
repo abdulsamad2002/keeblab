@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useState, useEffect, useRef } from "react";
+import { RotateCcw, ArrowRight, Zap, Target, Trophy, ArrowLeft } from "lucide-react";
 
 const paragraphs = [
   "The quick brown fox jumps over the lazy dog near the riverbank. Technology continues to evolve at an unprecedented pace, transforming how we live and work.",
@@ -16,6 +17,7 @@ const paragraphs = [
 ];
 
 export default function TypingTest() {
+  const [theme, setTheme] = useState("dark");
   const [currentParagraph, setCurrentParagraph] = useState("");
   const [userInput, setUserInput] = useState("");
   const [startTime, setStartTime] = useState(null);
@@ -28,6 +30,8 @@ export default function TypingTest() {
   const [streak, setStreak] = useState(0);
   const [particles, setParticles] = useState([]);
   const inputRef = useRef(null);
+
+  const isDark = theme === "dark";
 
   useEffect(() => {
     loadNewParagraph();
@@ -134,37 +138,59 @@ export default function TypingTest() {
   };
 
   const getCharClass = (index) => {
-    if (index >= userInput.length) return "text-gray-600";
-    if (userInput[index] === currentParagraph[index]) {
-      return "text-emerald-400";
+    if (index >= userInput.length) {
+      return isDark ? "text-gray-500" : "text-slate-400";
     }
-    return "text-red-500 bg-red-500/20";
+    if (userInput[index] === currentParagraph[index]) {
+      return isDark ? "text-cyan-400" : "text-cyan-600";
+    }
+    return isDark ? "text-rose-400 bg-rose-500/20" : "text-rose-600 bg-rose-100";
   };
 
   const getSpeedIndicator = () => {
-    if (wpm > 80)
-      return "bg-gradient-to-r from-purple-500 via-pink-500 to-red-500";
-    if (wpm > 60) return "bg-gradient-to-r from-blue-500 to-purple-500";
-    if (wpm > 40) return "bg-gradient-to-r from-green-500 to-blue-500";
-    return "bg-gradient-to-r from-gray-500 to-green-500";
+    if (wpm > 80) return isDark 
+      ? "bg-gradient-to-r from-purple-500 via-pink-500 to-cyan-400"
+      : "bg-gradient-to-r from-purple-600 via-pink-600 to-cyan-500";
+    if (wpm > 60) return isDark
+      ? "bg-gradient-to-r from-blue-500 to-cyan-400"
+      : "bg-gradient-to-r from-blue-600 to-cyan-500";
+    if (wpm > 40) return isDark
+      ? "bg-gradient-to-r from-cyan-500 to-blue-500"
+      : "bg-gradient-to-r from-cyan-600 to-blue-600";
+    return isDark
+      ? "bg-gradient-to-r from-slate-600 to-cyan-500"
+      : "bg-gradient-to-r from-slate-500 to-cyan-600";
   };
 
   return (
-    <div className="min-h-screen bg-black text-white flex items-center justify-center p-8 relative overflow-hidden">
-      {/* Animated Background */}
-      <div className="absolute inset-0 opacity-20">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-purple-500 rounded-full blur-3xl animate-pulse"></div>
-        <div
-          className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500 rounded-full blur-3xl animate-pulse"
-          style={{ animationDelay: "1s" }}
-        ></div>
+    <div className={`min-h-screen w-full flex items-center justify-center p-4 md:p-8 relative overflow-hidden transition-colors duration-500 ${
+      isDark 
+        ? "bg-[#0A0C10] text-white" 
+        : "bg-gradient-to-br from-[#F8FAFC] to-[#EEF2F7] text-[#0F172A]"
+    }`}>
+      {/* Atmospheric Background Blurs */}
+      <div className="absolute inset-0 -z-10 overflow-hidden">
+        <div className={`absolute -top-32 left-1/2 -translate-x-1/2 w-[700px] h-[700px] rounded-full blur-[180px] ${
+          isDark 
+            ? "bg-gradient-to-tr from-blue-500/20 to-cyan-400/10"
+            : "bg-gradient-to-tr from-blue-400/30 to-cyan-300/20"
+        }`} />
+        <div className={`absolute -bottom-32 right-1/4 w-[500px] h-[500px] rounded-full blur-[140px] ${
+          isDark
+            ? "bg-rose-500/10"
+            : "bg-rose-400/15"
+        }`} />
       </div>
 
       {/* Particles */}
       {particles.map((particle) => (
         <div
           key={particle.id}
-          className="absolute w-4 h-4 bg-gradient-to-r from-yellow-400 to-pink-500 rounded-full animate-ping"
+          className={`absolute w-3 h-3 rounded-full animate-ping pointer-events-none ${
+            isDark 
+              ? "bg-gradient-to-r from-cyan-400 to-pink-400"
+              : "bg-gradient-to-r from-cyan-500 to-pink-500"
+          }`}
           style={{
             left: `${particle.x}%`,
             top: `${particle.y}%`,
@@ -174,107 +200,149 @@ export default function TypingTest() {
       ))}
 
       <div className="w-full max-w-6xl relative z-10">
-        {/* Stats Bar */}
-        <div className="flex items-center justify-between mb-12 gap-8">
-          <div className="flex gap-8">
-            <div className="text-center">
-              <div
-                className={`text-6xl font-black ${
-                  wpm > 80
-                    ? "text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400 animate-pulse"
-                    : "text-white"
-                }`}
-              >
-                {wpm}
-              </div>
-              <div className="text-gray-500 text-sm uppercase tracking-widest mt-1">
-                WPM
+        {/* Header with Back Button and Logo */}
+        <div className="flex items-center justify-between mb-8 md:mb-12">
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => window.history.back()}
+              className={`p-2 md:p-3 rounded-full transition-all transform hover:scale-105 active:scale-95 flex items-center justify-center ${
+                isDark
+                  ? "bg-white/10 hover:bg-white/16 text-white"
+                  : "bg-white hover:bg-gray-50 text-[#0F172A] border border-black/10 shadow-sm"
+              }`}
+              aria-label="Back to home"
+            >
+              <ArrowLeft size={18} />
+            </button>
+            
+            <div className={`inline-flex items-center px-4 py-2 rounded-full font-extrabold text-lg tracking-tight shadow-sm ${
+              isDark
+                ? "bg-white/10 text-white"
+                : "bg-white text-[#0F172A] border border-black/10"
+            }`}>
+              KeebLab
+            </div>
+          </div>
+          
+          <div className="flex items-center gap-3">
+            <div className="hidden sm:block text-xs md:text-sm text-gray-500 uppercase tracking-widest">
+              Typing Test
+            </div>
+            <button
+              className={`px-4 md:px-6 py-2 md:py-2.5 rounded-full font-bold text-sm transition-all transform hover:scale-105 active:scale-95 ${
+                isDark
+                  ? "bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white"
+                  : "bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white shadow-lg"
+              }`}
+            >
+              Sign up
+            </button>
+          </div>
+        </div>
+
+        {/* Stats Cards */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-8 md:mb-12">
+          <div className={`rounded-2xl p-4 md:p-6 backdrop-blur-xl border transition-all ${
+            isDark 
+              ? "bg-white/5 border-white/10 hover:bg-white/8"
+              : "bg-white border-black/10 hover:shadow-lg"
+          }`}>
+            <div className="flex items-center gap-2 mb-2">
+              <Zap size={16} className={isDark ? "text-cyan-400" : "text-cyan-600"} />
+              <div className={`text-xs uppercase tracking-wider ${isDark ? "text-gray-400" : "text-slate-600"}`}>
+                Speed
               </div>
             </div>
-            <div className="text-center">
-              <div className="text-6xl font-black text-white">{accuracy}%</div>
-              <div className="text-gray-500 text-sm uppercase tracking-widest mt-1">
+            <div className={`text-3xl md:text-4xl font-extrabold ${
+              wpm > 80
+                ? `bg-gradient-to-r ${isDark ? "from-cyan-400 to-pink-400" : "from-cyan-600 to-pink-600"} bg-clip-text text-transparent`
+                : ""
+            }`}>
+              {wpm}
+            </div>
+            <div className={`text-xs ${isDark ? "text-gray-500" : "text-slate-500"}`}>WPM</div>
+          </div>
+
+          <div className={`rounded-2xl p-4 md:p-6 backdrop-blur-xl border transition-all ${
+            isDark 
+              ? "bg-white/5 border-white/10 hover:bg-white/8"
+              : "bg-white border-black/10 hover:shadow-lg"
+          }`}>
+            <div className="flex items-center gap-2 mb-2">
+              <Target size={16} className={isDark ? "text-cyan-400" : "text-cyan-600"} />
+              <div className={`text-xs uppercase tracking-wider ${isDark ? "text-gray-400" : "text-slate-600"}`}>
                 Accuracy
               </div>
             </div>
-            <div className="text-center">
-              <div className="text-6xl font-black text-white">
-                {completedCount}
-              </div>
-              <div className="text-gray-500 text-sm uppercase tracking-widest mt-1">
-                Completed
-              </div>
-            </div>
+            <div className="text-3xl md:text-4xl font-extrabold">{accuracy}%</div>
+            <div className={`text-xs ${isDark ? "text-gray-500" : "text-slate-500"}`}>Precision</div>
           </div>
 
-          {/* Speed Indicator */}
-          <div className="flex flex-col items-end gap-2">
-            <div className="flex gap-2">
-              <div
-                className={`h-8 w-1 rounded ${
-                  wpm > 20 ? getSpeedIndicator() : "bg-gray-700"
-                }`}
-              ></div>
-              <div
-                className={`h-8 w-1 rounded ${
-                  wpm > 40 ? getSpeedIndicator() : "bg-gray-700"
-                }`}
-              ></div>
-              <div
-                className={`h-8 w-1 rounded ${
-                  wpm > 60 ? getSpeedIndicator() : "bg-gray-700"
-                }`}
-              ></div>
-              <div
-                className={`h-8 w-1 rounded ${
-                  wpm > 80 ? getSpeedIndicator() : "bg-gray-700"
-                }`}
-              ></div>
-              <div
-                className={`h-8 w-1 rounded ${
-                  wpm > 100 ? getSpeedIndicator() : "bg-gray-700"
-                }`}
-              ></div>
+          <div className={`rounded-2xl p-4 md:p-6 backdrop-blur-xl border transition-all ${
+            isDark 
+              ? "bg-white/5 border-white/10 hover:bg-white/8"
+              : "bg-white border-black/10 hover:shadow-lg"
+          }`}>
+            <div className="flex items-center gap-2 mb-2">
+              <Trophy size={16} className={isDark ? "text-cyan-400" : "text-cyan-600"} />
+              <div className={`text-xs uppercase tracking-wider ${isDark ? "text-gray-400" : "text-slate-600"}`}>
+                Complete
+              </div>
             </div>
-            <div className="text-gray-500 text-xs">{timeElapsed}s</div>
+            <div className="text-3xl md:text-4xl font-extrabold">{completedCount}</div>
+            <div className={`text-xs ${isDark ? "text-gray-500" : "text-slate-500"}`}>Tests</div>
+          </div>
+
+          <div className={`rounded-2xl p-4 md:p-6 backdrop-blur-xl border transition-all ${
+            isDark 
+              ? "bg-white/5 border-white/10 hover:bg-white/8"
+              : "bg-white border-black/10 hover:shadow-lg"
+          }`}>
+            <div className="flex items-center gap-2 mb-2">
+              <div className="flex gap-1">
+                {[...Array(5)].map((_, i) => (
+                  <div
+                    key={i}
+                    className={`h-4 w-1 rounded transition-all ${
+                      wpm > (i + 1) * 20 
+                        ? getSpeedIndicator() 
+                        : isDark ? "bg-gray-700" : "bg-gray-300"
+                    }`}
+                  />
+                ))}
+              </div>
+            </div>
+            <div className="text-3xl md:text-4xl font-extrabold">{timeElapsed}s</div>
+            <div className={`text-xs ${isDark ? "text-gray-500" : "text-slate-500"}`}>Duration</div>
           </div>
         </div>
 
         {/* Typing Area */}
-        <div className="relative mb-8">
-          <div
-            className="text-4xl leading-loose font-sans mb-8 cursor-text p-6 rounded-2xl border-2 border-gray-800 focus-within:border-purple-500 transition-all min-h-[200px]"
-            onClick={() => inputRef.current?.focus()}
-          >
+        <div className={`rounded-3xl p-6 md:p-10 backdrop-blur-xl border mb-6 transition-all cursor-text ${
+          isDark 
+            ? "bg-white/5 border-white/10 hover:bg-white/8 focus-within:border-cyan-500/50"
+            : "bg-white border-black/10 hover:shadow-lg focus-within:border-cyan-500"
+        }`}
+        onClick={() => inputRef.current?.focus()}>
+          <div className="text-xl md:text-3xl leading-relaxed font-medium select-none min-h-[160px] md:min-h-[200px]">
             {currentParagraph.split("").map((char, index) => (
               <span
                 key={index}
-                className={`inline-block ${getCharClass(
-                  index
-                )} transition-all duration-75 ${
+                className={`inline-block transition-all duration-75 ${getCharClass(index)} ${
                   index === userInput.length
-                    ? "border-b-4 border-white animate-pulse scale-110"
-                    : ""
-                } ${
-                  userInput[index] === currentParagraph[index] &&
-                  index === userInput.length - 1
-                    ? "animate-bounce"
+                    ? `border-b-2 ${isDark ? "border-cyan-400" : "border-cyan-600"} animate-pulse`
                     : ""
                 }`}
-                style={{
-                  animationDuration: "0.3s",
-                  animationIterationCount: "1",
-                }}
               >
-                {char}
+                {char === " " ? "\u00A0" : char}
               </span>
             ))}
           </div>
 
-          {/* Progress Indicator */}
-          <div className="h-2 bg-gray-800 rounded-full overflow-hidden mb-8">
+          {/* Progress Bar */}
+          <div className={`h-1.5 rounded-full overflow-hidden mt-6 ${isDark ? "bg-white/10" : "bg-gray-200"}`}>
             <div
-              className={`h-full ${getSpeedIndicator()} transition-all duration-200`}
+              className={`h-full transition-all duration-200 ${getSpeedIndicator()}`}
               style={{
                 width: `${(userInput.length / currentParagraph.length) * 100}%`,
               }}
@@ -293,24 +361,36 @@ export default function TypingTest() {
         />
 
         {/* Controls */}
-        <div className="flex gap-4 mt-8">
+        <div className="flex flex-col sm:flex-row gap-3 md:gap-4">
           <button
             onClick={handleReset}
-            className="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold py-4 px-8 rounded-xl transition-all transform hover:scale-105 active:scale-95 uppercase tracking-wider"
+            className={`flex-1 rounded-xl py-4 px-6 font-bold uppercase tracking-wider transition-all transform hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-2 ${
+              isDark
+                ? "bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white"
+                : "bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white shadow-lg"
+            }`}
           >
+            <RotateCcw size={18} />
             Reset
           </button>
           <button
             onClick={loadNewParagraph}
-            className="flex-1 bg-gray-800 hover:bg-gray-700 text-white font-bold py-4 px-8 rounded-xl transition-all transform hover:scale-105 active:scale-95 uppercase tracking-wider"
+            className={`flex-1 rounded-xl py-4 px-6 font-bold uppercase tracking-wider transition-all transform hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-2 ${
+              isDark
+                ? "bg-white/10 hover:bg-white/16 text-white border border-white/20"
+                : "bg-white hover:bg-gray-50 text-[#0F172A] border border-black/20 shadow-lg"
+            }`}
           >
             Next
+            <ArrowRight size={18} />
           </button>
         </div>
 
         {/* Streak Indicator */}
         {streak > 10 && (
-          <div className="text-center mt-6 text-yellow-400 text-2xl font-bold animate-bounce">
+          <div className={`text-center mt-6 text-xl md:text-2xl font-bold animate-bounce ${
+            isDark ? "text-cyan-400" : "text-cyan-600"
+          }`}>
             🔥 {streak} Streak!
           </div>
         )}

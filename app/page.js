@@ -48,10 +48,8 @@ export default function KeebLab() {
     <div
       className="min-h-screen w-full overflow-x-hidden transition-colors duration-500"
       style={{
-        backgroundColor: 'var(--color-bg)',
+        backgroundColor: isDark ? '#0A0C10' : '#FFFFFF',
         color: 'var(--color-text)',
-        backgroundImage: isDark ? 'none' : 'linear-gradient(rgba(0,0,0,0.015) 1px, transparent 1px)',
-        backgroundSize: '100% 56px',
         fontFamily: "'Inter', system-ui, -apple-system, sans-serif"
       }}
     >
@@ -178,7 +176,13 @@ export default function KeebLab() {
       )}
 
       {/* HERO */}
-      <section id="main" className="relative pt-28 md:pt-40 pb-20 md:pb-36 overflow-hidden">
+      <section 
+        id="main" 
+        className="relative pt-28 md:pt-40 pb-20 md:pb-36 overflow-hidden"
+        style={{
+          backgroundColor: isDark ? '#0A0C10' : '#FFFFFF',
+        }}
+      >
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -254,7 +258,13 @@ export default function KeebLab() {
       </section>
 
       {/* ABOUT */}
-      <section id="about" className="pb-32">
+      <section 
+        id="about" 
+        className="pb-32"
+        // style={{
+        //   backgroundColor: isDark ? '#0F1419' : '#F8FAFC',
+        // }}
+      >
         <motion.div
           initial={{ opacity: 0, y: 60 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -265,7 +275,7 @@ export default function KeebLab() {
           <div
             className="rounded-3xl p-14 md:p-20 border backdrop-blur-xl"
             style={{
-              backgroundColor: isDark ? 'rgba(255, 255, 255, 0.05)' : '#FFFFFF',
+              backgroundColor: isDark ? '#1A1F26' : '#FFFFFF',
               borderColor: isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
               boxShadow: '0 6px 24px rgba(16, 24, 40, 0.04)',
               borderRadius: '14px'
@@ -314,9 +324,7 @@ export default function KeebLab() {
       <footer
         className="transition-colors duration-500"
         style={{
-          background: isDark
-            ? 'linear-gradient(to right, rgba(0, 0, 0, 0.8), rgba(255, 255, 255, 0.02), rgba(0, 0, 0, 0.7))'
-            : 'linear-gradient(to right, #EEF2FF, #ECFEFF)',
+          backgroundColor: isDark ? 'black' : '#FFFFFF',
           color: 'var(--color-text)'
         }}
       >

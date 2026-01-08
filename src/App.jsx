@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import { Github, Linkedin, Moon, Sun, ArrowRight, Menu, X } from "lucide-react";
 import { motion } from "framer-motion";
-import TypingTest from "./components/page";
 import Link from "next/link";
 
 export default function KeebLab() {

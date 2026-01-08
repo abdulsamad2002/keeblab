@@ -11,7 +11,6 @@ export default function KeebLab() {
   const [view, setView] = useState("landing");
 
   useEffect(() => {
-    // Prefer saved preference, fallback to system setting
     const saved = localStorage.getItem("theme");
     if (saved === "dark" || saved === "light") {
       setTheme(saved);
